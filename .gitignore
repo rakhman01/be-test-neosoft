@@ -1,0 +1,9 @@
+# Golang
+/bin/
+/vendor/
+/*.exe
+/*.out
+/*.test
+
+# Environment variables
+.env
