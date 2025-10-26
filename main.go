@@ -4,6 +4,7 @@ import (
     "golang-invoice/database"
     "golang-invoice/models"
     "golang-invoice/routes"
+    "os"
 )
 
 func main() {
@@ -13,5 +14,11 @@ func main() {
     db.AutoMigrate(&models.Product{}, &models.Patient{}, &models.Invoice{}, &models.InvoiceItem{})
 
     router := routes.SetupRouter(db)
-    router.Run(":8080") // buka di http://localhost:8080
+    
+    // ambil PORT dari environment variable, default 8080 jika tidak ada
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+    router.Run(":" + port)
 }

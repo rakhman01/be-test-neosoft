@@ -1,0 +1,10 @@
+.git
+.gitignore
+*.db
+clinic.db
+.env
+.DS_Store
+golang-invoice
+*.md
+README.md
+setup_database.sql
