@@ -17,6 +17,10 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
         AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
     }))
 
+    // health check endpoint
+    r.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{"status": "ok", "message": "API is running"})
+    })
 
     productHandler := handlers.NewProductHandler(db)
     patientHandler := handlers.NewPatientHandler(db)
