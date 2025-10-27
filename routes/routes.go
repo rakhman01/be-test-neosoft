@@ -12,7 +12,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
     //handle cors
         r.Use(cors.New(cors.Config{
-        AllowOrigins: []string{"http://localhost:5173",  "https://your-vercel-app.vercel.app"},
+        AllowOrigins: []string{"http://localhost:5173",  "https://fe-test-neosoft.vercel.app/"},
         AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
         AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
     }))
