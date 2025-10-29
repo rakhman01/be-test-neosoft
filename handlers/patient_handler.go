@@ -74,7 +74,24 @@ func (h *PatientHandler) Update(c *gin.Context) {
 
 func (h *PatientHandler) Delete(c *gin.Context) {
     id := c.Param("id")
-    if err := h.DB.Delete(&models.Patient{}, id).Error; err != nil {
+    var patient models.Patient
+    if err := h.DB.First(&patient, id).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Patient tidak ditemukan"})
+        return
+    }
+
+    var invoiceCount int64
+    if err := h.DB.Model(&models.Invoice{}).Where("patient_id = ?", id).Count(&invoiceCount).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    if invoiceCount > 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Patient tidak dapat dihapus karena masih memiliki invoice"})
+        return
+    }
+
+    if err := h.DB.Delete(&patient).Error; err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }

@@ -53,6 +53,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
             invoices.GET("/:id", invoiceHandler.GetByID)
             invoices.GET("/no/:invoiceNo", invoiceHandler.GetByInvoiceNo)
             invoices.POST("", invoiceHandler.Create)
+            invoices.DELETE("/:id", invoiceHandler.Delete)
         }
     }
 

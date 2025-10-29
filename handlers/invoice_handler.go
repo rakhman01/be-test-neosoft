@@ -105,3 +105,18 @@ func (h *InvoiceHandler) GetByInvoiceNo(c *gin.Context) {
     }
     c.JSON(http.StatusOK, invoice)
 }
+
+func (h *InvoiceHandler) Delete(c *gin.Context) {
+    id := c.Param("id")
+    var invoice models.Invoice
+    if err := h.DB.First(&invoice, id).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Invoice tidak ditemukan"})
+        return
+    }
+
+    if err := h.DB.Delete(&invoice).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"message": "Invoice berhasil dihapus"})
+}
